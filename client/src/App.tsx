@@ -34,6 +34,7 @@ import {
   CategoryShow,
 } from "./pages/categories";
 import { ForgotPassword } from "./pages/forgotPassword";
+import { ResetPassword } from "./pages/forgotPassword/reset";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 
@@ -134,6 +135,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
               </Routes>
 
               <RefineKbar />

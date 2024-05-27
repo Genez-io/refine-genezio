@@ -73,6 +73,13 @@ export const authProvider: AuthProvider = {
       redirectTo: "/login",
     };
   },
+  updatePassword: async ({ password, token }) => {
+    await AuthService.getInstance().resetPasswordConfirmation(token, password);    
+    return {
+      success: true,
+      redirectTo: "/login",
+    };
+  },
   onError: async (error) => {
     console.error(error);
     return { error };
