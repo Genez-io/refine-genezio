@@ -1,6 +1,6 @@
 # Learn more about Genezio YAML at https://genezio.com/docs/project-structure/genezio-configuration-file/
 # The name of the project.
-name: define
+name: refine
 # The region where the project is deployed.
 region: eu-central-1
 # The version of the Genezio YAML configuration to parse.
@@ -43,3 +43,4 @@ frontend:
     start:
       - npm install --silent
       - npm run dev --silent
+  subdomain: beige-mild-gull
