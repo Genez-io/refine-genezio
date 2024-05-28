@@ -9,15 +9,15 @@ export const BlogPostEdit = () => {
 
   const { selectProps: categorySelectProps } = useSelect({
     resource: "categories",
-    defaultValue: blogPostsData?.category?.id,
+    // defaultValue: blogPostsData?.category?.id,
     queryOptions: {
-      enabled: !!blogPostsData?.category?.id,
+       enabled: !!blogPostsData?.category?.id,
     },
   });
 
   return (
     <Edit saveButtonProps={saveButtonProps} isLoading={formLoading}>
-      <Form {...formProps} layout="vertical">
+      <Form {...formProps} layout="vertical" >
         <Form.Item
           label={"Title"}
           name={["title"]}
