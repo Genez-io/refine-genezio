@@ -3,8 +3,17 @@ import * as gsdk from "@genezio-sdk/refine";
 
 let cache:any={};
 
+const simpleHashCode = (s: string):number => {
+    let hash:number = 0;
+    for (let i = 0; i < s.length; i++) {
+        const c = s.charCodeAt(i) + i%10007;
+        hash = (hash+c)%1000000007;
+    }
+    return hash;
+}
+
 const request = async(fName: string, resource: string, params: any = []) => {
-    const paramsAsString: string = JSON.stringify(params);
+    const paramsHash:number = simpleHashCode(JSON.stringify(params));
 
     if (fName.startsWith("get")) {
         if (cache[resource] === undefined) {
@@ -13,8 +22,8 @@ const request = async(fName: string, resource: string, params: any = []) => {
         if (cache[resource][fName] === undefined) {
             cache[resource][fName] = {};
         }
-        if (cache[resource][fName][paramsAsString] !== undefined) {
-            return cache[resource][fName][paramsAsString];
+        if (cache[resource][fName][paramsHash] !== undefined) {
+            return cache[resource][fName][paramsHash];
         }
     } else {
         delete cache[resource];
@@ -23,7 +32,7 @@ const request = async(fName: string, resource: string, params: any = []) => {
     const gclass = gsdk[resource as keyof typeof gsdk];
     const ret = await (gclass[fName as keyof typeof gclass] as any)(params[0]);
     if (fName.startsWith("get")) {
-        cache[resource][fName][paramsAsString] = ret;
+        cache[resource][fName][paramsHash] = ret;
     }
     return ret;
 };
