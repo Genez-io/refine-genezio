@@ -1,9 +1,30 @@
 import { CreateResponse, DataProvider } from "@refinedev/core";
 import * as gsdk from "@genezio-sdk/refine";
 
+let cache:any={};
+
 const request = async(fName: string, resource: string, params: any = []) => {
+    const paramsAsString: string = JSON.stringify(params);
+
+    if (fName.startsWith("get")) {
+        if (cache[resource] === undefined) {
+            cache[resource] = {};
+        }
+        if (cache[resource][fName] === undefined) {
+            cache[resource][fName] = {};
+        }
+        if (cache[resource][fName][paramsAsString] !== undefined) {
+            return cache[resource][fName][paramsAsString];
+        }
+    } else {
+        delete cache[resource];
+    }
+
     const gclass = gsdk[resource as keyof typeof gsdk];
     const ret = await (gclass[fName as keyof typeof gclass] as any)(params[0]);
+    if (fName.startsWith("get")) {
+        cache[resource][fName][paramsAsString] = ret;
+    }
     return ret;
 };
 
