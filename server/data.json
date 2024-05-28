@@ -1,0 +1,30 @@
+{
+    "blog_posts": [
+        {
+            "id": 1,
+            "title": "John Doe",
+            "content": "Hello John!",
+            "category": {"id": 1, "title": "?"},
+            "status": "published",
+            "createdAt": "2021-10-10T10:00:00Z"
+        },
+        { 
+            "id": 2,
+            "title": "Jane Doe",
+            "content": "Hello Jane!",
+            "category": {"id": 1, "title": "?"},
+            "status": "published",
+            "createdAt": "2022-10-10T10:00:00Z"
+        }
+    ],
+    "categories": [
+        {
+            "id": 1,
+            "title": "General"
+        },
+        {
+            "id": 2,
+            "title": "Technology"
+        }
+    ]
+}

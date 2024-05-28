@@ -1,62 +1,64 @@
 import { GenezioDeploy, GenezioAuth, GnzContext } from "@genezio/types";
 
-let d = [{
-    id: 1,
-    title: "John Doe",
-    content: "Hello John!",
-    category: {id: 1},
-    status: "published",
-    createdAt: "2021-10-10T10:00:00Z"
-},
-{ 
-    id: 2,
-    title: "Jane Doe",
-    content: "Hello Jane!",
-    category: {id: 1},
-    status: "published",
-    createdAt: "2022-10-10T10:00:00Z"
-}];
+import data from "./data.json";
+let bd: any[] = data.blog_posts;
+let cd = data.categories;
 
 @GenezioDeploy()
 export class blog_posts {
-    constructor() {}
+  constructor() {}
 
     async getList(): Promise<any> {
-      return {data: d, total: d.length};
+      let r = {data: [] as Record<string, any>, total: 0};
+      bd.forEach((item:any) => {
+          const cat = cd.find((c) => c.id == item.category.id);
+          if (cat) {
+              item.category = cat;
+          }
+          r.data.push(item);
+      });
+      r.total = r.data.length;
+      return r;
     }
   
     async getOne({id}: {id: number}): Promise<any> {
-        return {data: d.find((item) => item.id == id), total: 1};
+        let r = {data: bd.find((item) => item.id == id), total: 1};
+        if (r.data) {
+          const cat = cd.find((item) => item.id == r.data?.category.id);
+          if (cat)
+            r.data.category = cat;
+        }
+        return r;
     }
   
     @GenezioAuth()
     async create(context: GnzContext, {title, content, category, status, createdAt}: {title: string, content: string, category: any, status: string, createdAt: string}): Promise<any> {
-      d.push({
-        id: d.length + 1,
+      bd.push({
+        id: bd.length + 1,
         title: title,
         content: content,
         category: category,
         status: status,
         createdAt: createdAt
     });
-      return d.find((item) => item.id == d.length);
+      return bd.find((item) => item.id == bd.length);
     }
   
     async update(context: GnzContext, {id, title, content, category, status, createdAt}: {id: number, title: string, content: string, category: any, status: string, createdAt: string}): Promise<any> {
-        const index = d.findIndex((item) => item.id == id);
+        const index = bd.findIndex((item) => item.id == id);
         if (index === -1) throw new Error("Not found");
-        d[index].title = title;
-        d[index].content = content;
-        d[index].category = category;
-        d[index].status = status;
-        d[index].createdAt = createdAt;
-        return d[index];
+        bd[index].title = title;
+        bd[index].content = content;
+        bd[index].category = category;
+        bd[index].status = status;
+        bd[index].createdAt = createdAt;
+        return bd[index];
     }
   
     async deleteOne(context: GnzContext, {id}: {id: number}): Promise<any> {
-      const index = d.findIndex((item) => item.id == id);
+      const index = bd.findIndex((item) => item.id == id);
       if (index === -1) throw new Error("Not found");
-      d.splice(index, 1);
+      bd.splice(index, 1);
       return true;
     }
 }
