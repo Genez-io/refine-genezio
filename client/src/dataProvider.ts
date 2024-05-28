@@ -31,7 +31,7 @@ const request = async(fName: string, resource: string, params: any = []) => {
 const dataProvider: DataProvider = {
     // required methods
     getList: async({ resource, pagination, sorters, filters, meta }) => {
-        return request("getList", resource);
+        return request("getList", resource, [{pagination, sorters, filters}]);
     },
     create: ({ resource, variables, meta }) => {
         return request("create", resource, [variables]);

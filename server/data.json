@@ -25,6 +25,46 @@
         {
             "id": 2,
             "title": "Technology"
+        },
+        {
+            "id": 3,
+            "title": "Lifestyle"
+        },
+        {
+            "id": 4,
+            "title": "Travel"
+        },
+        {
+            "id": 5,
+            "title": "Food"
+        },
+        {
+            "id": 6,
+            "title": "Fashion"
+        },
+        {
+            "id": 7,
+            "title": "Music"
+        },
+        {
+            "id": 8,
+            "title": "Sports"
+        },
+        {
+            "id": 9,
+            "title": "Business"
+        },
+        {
+            "id": 10,
+            "title": "Politics"
+        },
+        {
+            "id": 11,
+            "title": "Entertainment"
+        },
+        {
+            "id": 12,
+            "title": "Education"
         }
     ]
 }

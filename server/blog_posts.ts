@@ -8,7 +8,7 @@ let cd = data.categories;
 export class blog_posts {
   constructor() {}
 
-    async getList(): Promise<any> {
+    async getList({pagination, sorters, filters} : {pagination: any, sorters: any, filters: any}): Promise<any> {
       let r = {data: [] as Record<string, any>, total: 0};
       bd.forEach((item:any) => {
           const cat = cd.find((c) => c.id == item.category.id);
@@ -18,6 +18,12 @@ export class blog_posts {
           r.data.push(item);
       });
       r.total = r.data.length;
+
+      const {current, pageSize} = pagination;
+      const startIndex = (current - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+    
+      r.data = r.data.slice(startIndex, endIndex);
       return r;
     }
   

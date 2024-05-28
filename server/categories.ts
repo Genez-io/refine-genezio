@@ -8,8 +8,13 @@ let cd = data.categories
 export class categories {
   constructor() {}
 
-  async getList(): Promise<any> {
-    return {data: cd, total: cd.length};
+  async getList({pagination, sorters, filters} : {pagination: any, sorters: any, filters: any}): Promise<any> {
+    const {current, pageSize} = pagination;
+    const startIndex = (current - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+  
+    const paginatedData = cd.slice(startIndex, endIndex);
+    return {data: paginatedData, total: cd.length};
   }
 
   async getOne({id}: {id: number}): Promise<any> {
