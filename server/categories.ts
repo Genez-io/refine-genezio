@@ -1,4 +1,5 @@
 import { GenezioDeploy, GenezioAuth, GnzContext } from "@genezio/types";
+import {IDataProviderService, DataProviderListParams} from "./data-provider";
 import data from "./data.json";
 
 type Category = {
@@ -8,46 +9,11 @@ type Category = {
 
 let cd: Category[] = data.categories
 
-//----------------------------------------------
-// Generic interface for response
-type Response<T> = {
-  data: T | T[] | undefined;
-  total: number;
-}
-
-// Type for the list parameters
-type ListParams = {
-  pagination: {
-    current: number;
-    pageSize: number;
-  };
-  sorters: {
-    field: string;
-    order: 'ascend' | 'descend';
-  }[];
-  filters: {
-    field: string;
-    operator: string;
-    value: string;
-  }[];
-};
-
-// Generic interface for the data provider service
-interface IDataProviderService<T> {
-  getList(params: ListParams): Promise<Response<T>>;
-  getOne(id: any): Promise<Response<T>>;
-  create(context: GnzContext, params: Record<string, any>): Promise<T | undefined>;
-  update(context: GnzContext, params: Record<string, any>): Promise<T>;
-  deleteOne(context: GnzContext, id: any): Promise<boolean>;
-}
-
-// ----------------------------------------------
-
 @GenezioDeploy()
 export class categories implements IDataProviderService<Category>{
   constructor() {}
 
-  async getList({pagination, sorters, filters} : ListParams) {
+  async getList(context: GnzContext, {pagination, sorters, filters} : DataProviderListParams) {
     const {current, pageSize} = pagination;
     
     // Filter the data
@@ -71,7 +37,7 @@ export class categories implements IDataProviderService<Category>{
     return {data: paginatedData, total: filteredData.length};
   }
 
-  async getOne(id: number) {
+  async getOne(context: GnzContext, id: number) {
     return {data: cd.find((item) => item.id == id), total: 1};
   }
   

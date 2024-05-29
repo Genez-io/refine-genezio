@@ -1,4 +1,5 @@
 import { GenezioDeploy, GenezioAuth, GnzContext } from "@genezio/types";
+import {IDataProviderService, DataProviderListParams, DataProviderResponse} from "./data-provider";
 
 import data from "./data.json";
 
@@ -19,46 +20,12 @@ type BlogPost = {
 let bd: BlogPost[] = data.blog_posts;
 let cd: Category[] = data.categories;
 
-//----------------------------------------------
-// Generic interface for response
-type Response<T> = {
-  data: T | T[] | undefined;
-  total: number;
-}
-
-// Type for the list parameters
-type ListParams = {
-  pagination: {
-    current: number;
-    pageSize: number;
-  };
-  sorters: {
-    field: string;
-    order: 'ascend' | 'descend';
-  }[];
-  filters: {
-    field: string;
-    operator: string;
-    value: string;
-  }[];
-};
-
-// Generic interface for the data provider service
-interface IDataProviderService<T> {
-  getList(params: ListParams): Promise<Response<T>>;
-  getOne(id: any): Promise<Response<T>>;
-  create(context: GnzContext, params: Record<string, any>): Promise<T | undefined>;
-  update(context: GnzContext, params: Record<string, any>): Promise<T>;
-  deleteOne(context: GnzContext, id: any): Promise<boolean>;
-}
-
-// ----------------------------------------------
 @GenezioDeploy()
 export class blog_posts implements IDataProviderService<BlogPost>{
   constructor() {}
 
-  async getList({pagination, sorters, filters} : ListParams) {
-    let r:Response<any> = {data: [] as Record<string, any>, total: 0};
+  async getList(context: GnzContext, {pagination, sorters, filters} : DataProviderListParams) {
+    let r:DataProviderResponse<any> = {data: [] as Record<string, any>, total: 0};
     bd.forEach((item:any) => {
       const cat = cd.find((c) => c.id == item.category.id);
       if (cat) {
@@ -76,7 +43,7 @@ export class blog_posts implements IDataProviderService<BlogPost>{
     return r;
   }
   
-  async getOne(id: number) {
+  async getOne(context: GnzContext, id: number) {
     let r = {data: bd.find((item) => item.id == id), total: 1};
     if (r.data) {
       const cat = cd.find((item) => item.id == r.data?.category.id);
