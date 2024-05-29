@@ -10,17 +10,32 @@ export class categories {
 
   async getList({pagination, sorters, filters} : {pagination: any, sorters: any, filters: any}): Promise<any> {
     const {current, pageSize} = pagination;
+    
+    // Filter the data
+    let filteredData = cd;
+    
+    if (filters && filters.length > 0) {
+      filters.forEach((filter: any) => {
+        if (filter.field === "title" && filter.operator === "contains" && filter.value) {
+          filteredData = filteredData.filter((item: any) =>
+            item.title.toLowerCase().includes(filter.value.toLowerCase())
+          );
+        }
+      });
+    }
+  
+    // Apply pagination to the filtered data
     const startIndex = (current - 1) * pageSize;
     const endIndex = startIndex + pageSize;
+    const paginatedData = filteredData.slice(startIndex, endIndex);
   
-    const paginatedData = cd.slice(startIndex, endIndex);
-    return {data: paginatedData, total: cd.length};
+    return {data: paginatedData, total: filteredData.length};
   }
 
   async getOne({id}: {id: number}): Promise<any> {
     return {data: cd.find((item) => item.id == id), total: 1};
   }
-
+  
   @GenezioAuth()
   async create(context: GnzContext, {title}: {title: string}): Promise<any> {
     console.log("User: ", context.user?.email, " created a category");
