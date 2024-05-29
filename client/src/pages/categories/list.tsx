@@ -11,7 +11,7 @@ import { Space, Table, Input, Form } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 export const CategoryList: React.FC = () => {
-  const { tableProps, setFilters } = useTable({
+  const { tableProps, setFilters, setCurrent } = useTable({
     syncWithLocation: true,
   });
 
@@ -38,7 +38,7 @@ export const CategoryList: React.FC = () => {
   }, [searchValue]);
 
   useEffect(() => {
-    if (oldValue.current != debouncedValue) {
+    if (oldValue.current != debouncedValue && (debouncedValue.length >= 3 || debouncedValue.length === 0)) {
       const newFilters: CrudFilters = [
         {
           field: "title",
@@ -48,9 +48,11 @@ export const CategoryList: React.FC = () => {
       ];
     
       setFilters(newFilters);
+      setCurrent(1); // Reset to the first page when filters change
+
       oldValue.current = debouncedValue;
     }
-  }, [debouncedValue, setFilters]);
+  }, [debouncedValue, setFilters, setCurrent]);
 
   return (
     <List>
