@@ -14,7 +14,7 @@ export type DataProviderListParams = {
   };
   sorters: {
     field: string;
-    order: 'ascend' | 'descend';
+    order: 'asc' | 'desc';
   }[];
   filters: {
     field: string;

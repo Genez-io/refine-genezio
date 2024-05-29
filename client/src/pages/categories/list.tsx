@@ -6,12 +6,12 @@ import {
   ShowButton,
   useTable,
 } from "@refinedev/antd";
-import { BaseRecord, CrudFilters } from "@refinedev/core";
+import { BaseRecord, CrudFilters, CrudSorting } from "@refinedev/core";
 import { Space, Table, Input, Form } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 export const CategoryList: React.FC = () => {
-  const { tableProps, setFilters, setCurrent } = useTable({
+  const { tableProps, setFilters, setCurrent, setSorters } = useTable({
     syncWithLocation: true,
   });
 
@@ -38,7 +38,10 @@ export const CategoryList: React.FC = () => {
   }, [searchValue]);
 
   useEffect(() => {
-    if (oldValue.current != debouncedValue && (debouncedValue.length >= 3 || debouncedValue.length === 0)) {
+    if (
+      oldValue.current !== debouncedValue &&
+      (debouncedValue.length >= 3 || debouncedValue.length === 0)
+    ) {
       const newFilters: CrudFilters = [
         {
           field: "title",
@@ -46,13 +49,28 @@ export const CategoryList: React.FC = () => {
           value: debouncedValue.length >= 3 ? debouncedValue : undefined,
         },
       ];
-    
+
       setFilters(newFilters);
       setCurrent(1); // Reset to the first page when filters change
 
       oldValue.current = debouncedValue;
     }
   }, [debouncedValue, setFilters, setCurrent]);
+
+  const handleTableChange = (
+    pagination: any,
+    filters: any,
+    sorter: any
+  ) => {
+    const sorters: CrudSorting = [];
+    if (sorter.field && sorter.order) {
+      sorters.push({
+        field: sorter.field,
+        order: sorter.order === "ascend" ? "asc" : "desc",
+      });
+    }
+    setSorters(sorters);
+  };
 
   return (
     <List>
@@ -67,9 +85,13 @@ export const CategoryList: React.FC = () => {
           />
         </Form.Item>
       </Form>
-      <Table {...tableProps} rowKey="id">
-        <Table.Column dataIndex="id" title={"ID"} />
-        <Table.Column dataIndex="title" title={"Title"} />
+      <Table
+        {...tableProps}
+        rowKey="id"
+        onChange={handleTableChange} // Add onChange handler
+      >
+        <Table.Column dataIndex="id" title={"ID"} sorter />
+        <Table.Column dataIndex="title" title={"Title"} sorter />
         <Table.Column
           title={"Actions"}
           dataIndex="actions"
