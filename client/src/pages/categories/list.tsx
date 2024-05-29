@@ -70,6 +70,7 @@ export const CategoryList: React.FC = () => {
       });
     }
     setSorters(sorters);
+    setCurrent(pagination.current); // Ensure pagination state is updated
   };
 
   return (
