@@ -12,7 +12,7 @@ const simpleHashCode = (s: string):number => {
     return hash;
 }
 
-const request = async(fName: string, resource: string, params: any = []) => {
+const request = async(fName: string, resource: string, params: any) => {
     const paramsHash:number = simpleHashCode(JSON.stringify(params));
 
     if (fName.startsWith("get")) {
@@ -30,7 +30,7 @@ const request = async(fName: string, resource: string, params: any = []) => {
     }
 
     const gclass = gsdk[resource as keyof typeof gsdk];
-    const ret = await (gclass[fName as keyof typeof gclass] as any)(params[0]);
+    const ret = await (gclass[fName as keyof typeof gclass] as any)(params);
     if (fName.startsWith("get")) {
         cache[resource][fName][paramsHash] = ret;
     }
@@ -40,20 +40,19 @@ const request = async(fName: string, resource: string, params: any = []) => {
 const dataProvider: DataProvider = {
     // required methods
     getList: async({ resource, pagination, sorters, filters, meta }) => {
-        return request("getList", resource, [{pagination, sorters, filters}]);
+        return request("getList", resource, {pagination, sorters, filters});
     },
     create: ({ resource, variables, meta }) => {
-        return request("create", resource, [variables]);
+        return request("create", resource, variables);
     },
     update: ({ resource, id, variables, meta }) => {
-        //variables.id = id;
-        return request("update", resource, [{id: id, ...variables}]);
+        return request("update", resource, {id: id, ...variables});
     },
     deleteOne: ({ resource, id, variables, meta }) => {
-        return request("deleteOne", resource, [{id: id}]);
+        return request("deleteOne", resource, id);
     },
     getOne: ({ resource, id, meta }) => {
-        return request("getOne", resource, [{id: id}]);
+        return request("getOne", resource, id);
     },
     getApiUrl: () => {
         return '';
