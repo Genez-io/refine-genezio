@@ -15,7 +15,6 @@ import routerBindings, {
   NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
-import dataProvider from "./dataProvider";
 import { App as AntdApp } from "antd";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider } from "./authProvider";
@@ -38,6 +37,9 @@ import { ResetPassword } from "./pages/forgotPassword/reset";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 
+import dataProvider from "refine-genezio";
+import * as gsdk from "@genezio-sdk/refine";
+
 function App() {
   return (
     <BrowserRouter>
@@ -45,7 +47,7 @@ function App() {
         <ColorModeContextProvider>
           <AntdApp>
             <Refine
-              dataProvider={dataProvider}
+              dataProvider={dataProvider(gsdk)}
               notificationProvider={useNotificationProvider}
               routerProvider={routerBindings}
               authProvider={authProvider}

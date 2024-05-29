@@ -13,7 +13,7 @@ let cd: Category[] = data.categories
 export class categories implements IDataProviderService<Category>{
   constructor() {}
 
-  async getList(context: GnzContext, {pagination, sorters, filters} : DataProviderListParams) {
+  async getList(_context: GnzContext, {pagination, sorters, filters} : DataProviderListParams) {
     const {current, pageSize} = pagination;
   
     // Filter the data
