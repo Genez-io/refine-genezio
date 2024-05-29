@@ -27,12 +27,22 @@ const request = async(gsdk: any, fName: string, resource: string, params: any) =
         delete cache[resource];
     }
 
-    const gclass = gsdk[resource as keyof typeof gsdk];
-    const ret = await (gclass[fName as keyof typeof gclass] as any)(params);
-    if (fName.startsWith("get")) {
-        cache[resource][fName][paramsHash] = ret;
+    const gclass = gsdk[resource as keyof typeof gsdk] ?? undefined;
+    if (gclass) {
+        const gfunction = gclass[fName as keyof typeof gclass] ?? undefined;
+
+        if (gfunction) {
+            const ret = await gfunction(params);
+            if (fName.startsWith("get")) {
+                cache[resource][fName][paramsHash] = ret;
+            }
+            return ret;    
+        } else {
+            throw new Error(`Class "${resource}" does not expose a function called "${fName}" in your server implememtaion on Genezio`);
+        }
+    } else {
+        throw new Error(`Class "${resource}" is not exposed in your server implememtaion on Genezio`);
     }
-    return ret;
 };
 
 export default (gsdk: any) => {

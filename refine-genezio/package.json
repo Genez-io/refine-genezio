@@ -1,6 +1,6 @@
 {
   "name": "refine-genezio",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A dynamic DataProvider for refine and genezio SDKs.",
   "main": "dist/refine-genezio.js",
   "types": "dist/refine-genezio.d.ts",
