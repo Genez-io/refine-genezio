@@ -14,7 +14,7 @@ type BlogPost = {
   content: string;
   category: Category;
   status: string;
-  createdAt: string;
+  created_at: string;
 }
 
 let bd: BlogPost[] = data.blogPosts;

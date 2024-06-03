@@ -9,11 +9,45 @@ import {
 } from "@refinedev/antd";
 import { BaseRecord, useMany } from "@refinedev/core";
 import { Space, Table } from "antd";
+import { useEffect, useState } from "react";
+
+interface Author {
+  id: number;
+  name: string;
+}
 
 export const BlogPostList = () => {
   const { tableProps } = useTable({
     syncWithLocation: true,
   });
+
+/*
+  const [authorIds, setAuthorIds] = useState<number[]>([]);
+  const [authors, setAuthors] = useState<Author[]>([]);
+
+  useEffect(() => {
+    if (tableProps.dataSource) {
+      const ids:any[] = tableProps.dataSource.map((item) => item.author_id);
+      setAuthorIds(ids);
+    }
+  }, [tableProps.dataSource]);
+
+  const { data: authorData, isLoading: authorLoading } = useMany<Author>({
+    resource: "Authors",
+    ids: authorIds,
+  });
+
+  useEffect(() => {
+    if (authorData) {
+      setAuthors(authorData.data);
+    }
+  }, [authorData]);
+
+  const getAuthorName = (id: number) => {
+    const author = authors.find((author) => author.id === id);
+    return author ? author.name : "-";
+  };
+  */
 
   return (
     <List>
@@ -29,13 +63,14 @@ export const BlogPostList = () => {
           }}
         />
         <Table.Column
-          dataIndex="category"
-          title={"Category"}
-          render={(value) => value?.title ?? "Unknown"}
+          //dataIndex="author_id"
+          dataIndex="author_name"
+          title={"Author"}
+          //render={(value: any) => getAuthorName(value)}
         />
         <Table.Column dataIndex="status" title={"Status"} />
         <Table.Column
-          dataIndex={["createdAt"]}
+          dataIndex={["created_at"]}
           title={"Created at"}
           render={(value: any) => <DateField value={value} />}
         />

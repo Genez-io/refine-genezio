@@ -1,13 +1,13 @@
 # Description
 
-This exemplofies a web admin interface that uses refine as a front-end and Genezio in the backend. It exposes some genezio classes as well as Genezio-based authentication.
+This exemplifies a web admin interface that uses refine as a front-end and Genezio in the backend. It exposes some genezio classes as well as Genezio-based authentication. It uses a plain json file for data storage.
 
 You can play with it here: https://beige-mild-gull.app.genez.io/
 
 # Deploying this example
 
 1. Clone this repository locally
-2. `cd example`
+2. `cd example-json`
 3. Install genezio with `npm install -g genezio`
 4. Deploy the project with `genezio deploy`
 5. Go to the Genezio App in your broser by accessing https://app.genez.io/ and choose your project

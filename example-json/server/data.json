@@ -6,7 +6,7 @@
             "content": "Hello John!",
             "category": {"id": 1, "title": "?"},
             "status": "published",
-            "createdAt": "2021-10-10T10:00:00Z"
+            "created_at": "2021-10-10T10:00:00Z"
         },
         { 
             "id": 2,
@@ -14,7 +14,7 @@
             "content": "Hello Jane!",
             "category": {"id": 1, "title": "?"},
             "status": "published",
-            "createdAt": "2022-10-10T10:00:00Z"
+            "created_at": "2022-10-10T10:00:00Z"
         }
     ],
     "categories": [

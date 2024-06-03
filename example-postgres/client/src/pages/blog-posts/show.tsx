@@ -5,7 +5,7 @@ import {
   Show,
   TextField,
 } from "@refinedev/antd";
-import { useOne, useShow } from "@refinedev/core";
+import { useOne, useShow, useMany } from "@refinedev/core";
 import { Typography } from "antd";
 
 const { Title } = Typography;
@@ -16,6 +16,14 @@ export const BlogPostShow = () => {
 
   const record = data?.data;
 
+  const categoryIds = record?.category_ids ?? [];
+  const { data: categoryData, isLoading: isCategoryLoading } = useMany({
+    resource: "Categories",
+    ids: categoryIds,
+  });
+
+  const categoryNames = categoryData?.data?.map((category:any) => category.title) || [];
+
   return (
     <Show isLoading={isLoading}>
       <Title level={5}>{"ID"}</Title>
@@ -24,12 +32,14 @@ export const BlogPostShow = () => {
       <TextField value={record?.title} />
       <Title level={5}>{"Content"}</Title>
       <MarkdownField value={record?.content} />
-      <Title level={5}>{"Category"}</Title>
-      <TextField value={record?.category?.title} />
+      <Title level={5}>{"Author"}</Title>
+      <TextField value={record?.author_name} />
+      <Title level={5}>{"Categories"}</Title>
+      <TextField value={categoryNames.join(", ")} />
       <Title level={5}>{"Status"}</Title>
       <TextField value={record?.status} />
-      <Title level={5}>{"CreatedAt"}</Title>
-      <DateField value={record?.createdAt} />
+      <Title level={5}>{"Created At"}</Title>
+      <DateField value={record?.created_at} />
     </Show>
   );
 };
