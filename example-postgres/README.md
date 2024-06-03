@@ -24,6 +24,6 @@ If you want to test Genezio and Refine locally:
 
 `DEMO_DATABASE_URL=postgresql://admin:<PASSWORD>@<POSTGRES_DOMAIN>/demo?sslmode=require`
 
-You can get the postgres connevction string form the genezio app / Databases / select your database / connect
+You can get the postgres connection string form the genezio app / databases / select your database / connect
 
 13. run `genezio local` on the project root folder
