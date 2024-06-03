@@ -53,7 +53,7 @@ function App() {
               authProvider={authProvider}
               resources={[
                 {
-                  name: "blog_posts",
+                  name: "BlogPosts",
                   list: "/blog-posts",
                   create: "/blog-posts/create",
                   edit: "/blog-posts/edit/:id",
@@ -63,7 +63,7 @@ function App() {
                   },
                 },
                 {
-                  name: "categories",
+                  name: "Categories",
                   list: "/categories",
                   create: "/categories/create",
                   edit: "/categories/edit/:id",
@@ -91,7 +91,7 @@ function App() {
                     </ThemedLayoutV2>
                   }
                 >
-                  <Route index element={<NavigateToResource resource="blog_posts" />} />
+                  <Route index element={<NavigateToResource resource="BlogPosts" />} />
                   <Route path="/blog-posts">
                     <Route index element={<BlogPostList />} />
                     <Route path="show/:id" element={<BlogPostShow />} />

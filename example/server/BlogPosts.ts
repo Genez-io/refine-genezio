@@ -1,5 +1,5 @@
 import { GenezioDeploy, GenezioAuth, GnzContext } from "@genezio/types";
-import {IDataProviderService, DataProviderListParams, DataProviderResponse} from "./data-provider";
+import {IDataProviderService, DataProviderListParams, DataProviderResponse} from "./DataProvider";
 
 import data from "./data.json";
 
@@ -17,11 +17,11 @@ type BlogPost = {
   createdAt: string;
 }
 
-let bd: BlogPost[] = data.blog_posts;
+let bd: BlogPost[] = data.blogPosts;
 let cd: Category[] = data.categories;
 
 @GenezioDeploy()
-export class blog_posts implements IDataProviderService<BlogPost>{
+export class BlogPosts implements IDataProviderService<BlogPost>{
   constructor() {}
 
   async getList(context: GnzContext, {pagination, sorters, filters} : DataProviderListParams) {

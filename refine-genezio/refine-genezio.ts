@@ -1,5 +1,6 @@
 import { DataProvider } from "@refinedev/core";
 let cache:any={};
+let shouldUseCache:boolean = false;
 
 const simpleHashCode = (s: string):number => {
     let hash:number = 0;
@@ -11,20 +12,22 @@ const simpleHashCode = (s: string):number => {
 }
 
 const request = async(gsdk: any, fName: string, resource: string, params: any) => {
-    const paramsHash:number = simpleHashCode(JSON.stringify(params));
-
-    if (fName.startsWith("get")) {
-        if (cache[resource] === undefined) {
-            cache[resource] = {};
+    let paramsHash:number = -1;
+    if (shouldUseCache) {
+        paramsHash = simpleHashCode(JSON.stringify(params));
+        if (fName.startsWith("get")) {
+            if (cache[resource] === undefined) {
+                cache[resource] = {};
+            }
+            if (cache[resource][fName] === undefined) {
+                cache[resource][fName] = {};
+            }
+            if (cache[resource][fName][paramsHash] !== undefined) {
+                return cache[resource][fName][paramsHash];
+            }
+        } else {
+            delete cache[resource];
         }
-        if (cache[resource][fName] === undefined) {
-            cache[resource][fName] = {};
-        }
-        if (cache[resource][fName][paramsHash] !== undefined) {
-            return cache[resource][fName][paramsHash];
-        }
-    } else {
-        delete cache[resource];
     }
 
     const gclass = gsdk[resource as keyof typeof gsdk] ?? undefined;
@@ -33,7 +36,7 @@ const request = async(gsdk: any, fName: string, resource: string, params: any) =
 
         if (gfunction) {
             const ret = await gfunction(params);
-            if (fName.startsWith("get")) {
+            if (shouldUseCache && fName.startsWith("get")) {
                 cache[resource][fName][paramsHash] = ret;
             }
             return ret;    
@@ -45,7 +48,8 @@ const request = async(gsdk: any, fName: string, resource: string, params: any) =
     }
 };
 
-export default (gsdk: any) => {
+export default (gsdk: any, useCache:boolean = false) => {
+    shouldUseCache = useCache;
     const dataProvider: DataProvider = {
         // required methods
         getList: async({ resource, pagination, sorters, filters, meta }) => {
@@ -66,10 +70,16 @@ export default (gsdk: any) => {
         getApiUrl: () => {
             return '';
         },
+        deleteMany: ({ resource, ids, variables, meta }) => {
+            return request(gsdk, "deleteMany", resource, ids);
+        },
+        getMany: ({ resource, ids, meta }) => {
+            return request(gsdk, "getMany", resource, ids);
+        }
+
         //   optional methods
-        //   getMany: ({ resource, ids, meta }) => Promise,
+        //   
         //   createMany: ({ resource, variables, meta }) => Promise,
-        //   deleteMany: ({ resource, ids, variables, meta }) => Promise,
         //   updateMany: ({ resource, ids, variables, meta }) => Promise,
         //   custom: ({ url, method, filters, sorters, payload, query, headers, meta }) =>
         //     Promise,
