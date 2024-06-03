@@ -5,7 +5,6 @@
   "type": "module",
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
-    "@genezio-sdk/refine": "^1.0.0-prod",
     "@genezio-sdk/refine-postgres": "^1.0.0-prod",
     "@genezio/auth": "^2.0.20",
     "@genezio/vite-plugin-genezio": "^1.0.5",
