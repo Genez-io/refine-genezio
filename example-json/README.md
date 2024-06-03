@@ -40,7 +40,7 @@ If your app uses authentication:
 
 1. Run `npm i @genezio/auth` in your client folder
 2. Copy the client/src/auth/ contents to your project and add the auth routes as exemplified in the App.tsx file in this repo
-3. Copy the [authProvider.ts](https://github.com/bogdanripa/refine-genezio/blob/main/example/client/src/authProvider.ts) file to your Refine project
+3. Copy the [authProvider.ts](https://github.com/bogdanripa/refine-genezio/blob/main/example-json/client/src/authProvider.ts) file to your Refine project
 4. Run `genezio deploy` in the project root folder
 5. Go to the Genezio App in your broser by accessing https://app.genez.io/ and choose your project
 6. Enable Authentication by choosing "Authentication" on the left-side menu, and enable the Email provider
