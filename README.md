@@ -16,4 +16,4 @@ import * as gsdk from "@genezio-sdk/PROJECT_NAME";
 <Refine dataProvider={dataProvider(gsdk)}...>
 ...
 ```
-5. If your app uses authentication, copy the "/client/src/authProvider.ts" to your Refine project
+5. If your app uses authentication, copy the "/client/src/authProvider.ts" to your Refine project, update the token / region in this file with the ones provided by Genezio, and make sure you update the reset password URL to https://YOUR-DOMAIN/reset-password
