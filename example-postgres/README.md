@@ -2,7 +2,7 @@
 
 This exemplifies a web admin interface that uses refine as a front-end and Genezio in the backend. It exposes some genezio classes as well as Genezio-based authentication. It uses a Postgres database for data storage.
 
-You can play with it here: 
+You can play with it here: https://scarlet-male-mink.app.genez.io/
 
 # Deploying this example
 
