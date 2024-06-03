@@ -1,19 +1,14 @@
-Genezio project that uses refine.dev as a front-end with Genezio in the backend. Integrated some basic classes as well as Genezio-based authentication.
+# Data Provider for Refine and Genezio
 
-You can play with it here: https://beige-mild-gull.app.genez.io/
+About genezio: https://genezio.com/
 
-Usage:
+About Refine: https://refine.dev/
 
-1. Create a Genezio project (FullStack, using React / TypeScrypt) 
-2. Create a Refine.dev project in the client folder
-3. npm install refine-genezio (in the client folder)
-4. Update the App.tsx file:
-```
-...
-import dataProvider from "refine-genezio";
-import * as gsdk from "@genezio-sdk/PROJECT_NAME";
-...
-<Refine dataProvider={dataProvider(gsdk)}...>
-...
-```
-5. If your app uses authentication, copy the "/client/src/authProvider.ts" to your Refine project, update the token / region in this file with the ones provided by Genezio, and make sure you update the reset password URL to https://YOUR-DOMAIN/reset-password
+
+Using this data provider, each react resource is mapped to a Genezio class. The Genezio classes have to implement the expected functions as explained in [this interface](https://github.com/bogdanripa/refine-genezio/blob/main/example/server/DataProvider.ts)
+
+See a the code behind and step by step instructions on hopw to deploy this data provider in the [example](https://github.com/bogdanripa/refine-genezio/tree/main/example) folder.
+
+And a working demo of this implementation: https://beige-mild-gull.app.genez.io/
+
+This is a serverless backend implementation using genezio classes and functions (FaaS or Functions as a Service)
