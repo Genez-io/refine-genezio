@@ -43,4 +43,3 @@ frontend:
     start:
       - npm install --silent
       - npm run dev --silent
-  subdomain: beige-mild-gull
