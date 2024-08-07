@@ -4,7 +4,11 @@ This exemplifies a web admin interface that uses refine as a front-end and Genez
 
 You can play with it here: https://beige-mild-gull.app.genez.io/
 
-# Deploying this example
+# Deploying this example 
+
+[![Deploy to Genezio](https://raw.githubusercontent.com/Genez-io/graphics/main/svg/deploy-button.svg)](https://app.genez.io/start/deploy?repository=https://github.com/Genez-io/refine-genezio&base_path=example-json)
+
+Or follow these steps to deploy this example using genezio's cli
 
 1. Clone this repository locally
 2. `cd example-json`
